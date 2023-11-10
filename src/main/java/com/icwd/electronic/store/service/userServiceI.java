@@ -1,5 +1,6 @@
 package com.icwd.electronic.store.service;
 
+import com.icwd.electronic.store.dto.PageableResponse;
 import com.icwd.electronic.store.dto.UserDto;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,7 @@ public interface userServiceI {
 
     public void deleteUser(String userid);
 
-    public List<UserDto> getAllUser (int pageNumber, int pageSize);
+    public PageableResponse<UserDto> getAllUser (int pageNumber, int pageSize, String sortBy , String sortDir);
 
     public UserDto getUserById(String userid);
 

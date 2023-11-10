@@ -1,5 +1,6 @@
 package com.icwd.electronic.store.dto;
 
+import com.icwd.electronic.store.validate.ImageNameValid;
 import lombok.*;
 
 import javax.validation.Valid;
@@ -27,9 +28,10 @@ public class UserDto {
     private String password;
      @Size(min = 4 , max=8)
     private String gender;
-     @NotBlank(message = "")
+     @NotBlank(message = "The About field is not Blank.")
+     @Size(min = 10 , max = 200)
     private String about;
-
+     @ImageNameValid
     private String imagename;
 
 

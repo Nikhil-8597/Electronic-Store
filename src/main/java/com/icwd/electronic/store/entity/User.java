@@ -19,13 +19,13 @@ public class User {
     private String userid;
     @Column(name="user_name")
     private String name;
-    @Column(name="user_email",unique = true)
+    @Column(name="user_email")
     private String email;
-    @Column(name = "user_password",length = 10)
+    @Column(name = "user_password")
     private  String password;
     @Column(name = "user_gender")
     private String gender;
-    @Column(name = "user_about",length = 1000)
+    @Column(name = "user_about")
     private String about;
     @Column(name = "user_image_name")
     private String imagename;
