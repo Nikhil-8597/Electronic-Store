@@ -6,6 +6,7 @@ import com.icwd.electronic.store.dto.UserDto;
 import com.icwd.electronic.store.entity.User;
 
 import com.icwd.electronic.store.exception.ResourceNotFoundException;
+import com.icwd.electronic.store.helper.Helper;
 import com.icwd.electronic.store.service.userServiceI;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -74,16 +75,7 @@ public class userServiceImpl implements userServiceI {
                    :(Sort.by(sortBy).ascending());
         Pageable pageable = PageRequest.of(pageNumber,pageSize,sort);
         Page<User> all = this.userRepository.findAll(pageable);
-        List<User> users = all.getContent();
-        List<UserDto> userDtoList = users.stream().map(user -> this.UserToDto(user)).collect(Collectors.toList());
-
-        PageableResponse<UserDto> response = new PageableResponse();
-        response.setContent(userDtoList);
-        response.setPageNumber(all.getNumber());
-        response.setPageSize(all.getSize());
-        response.setTotalElement(all.getTotalElements());
-        response.setTotalPages(all.getTotalPages());
-        response.setLastPage(all.isLast());
+        PageableResponse<UserDto> response= Helper.getPageableResponse(all, UserDto.class);
         log.info("Completed Dao Call For Get All UserData ");
         return response;
     }

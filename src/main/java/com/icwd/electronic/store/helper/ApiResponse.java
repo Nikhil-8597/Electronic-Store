@@ -1,4 +1,4 @@
-package com.icwd.electronic.store.exception;
+package com.icwd.electronic.store.helper;
 
 import lombok.Builder;
 import lombok.Data;

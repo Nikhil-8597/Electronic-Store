@@ -38,7 +38,7 @@ public class userController {
     }
 
     /**
-     * @author NikhPhalke
+     * @author NikhilPhalke
      * @apiNote Update A User
      * @param userDto
      * @param userid
@@ -55,7 +55,7 @@ public class userController {
     }
 
     /**
-     *@author NikhPhalke
+     *@author NikhilPhalke
      *@apiNote Get All Users
      *@return
      *@since 1.0v
@@ -74,7 +74,7 @@ public class userController {
     }
 
     /**
-     * @author NikhPhalke
+     * @author NikhilPhalke
      * @apiNote Get A Single User
      * @param userid
      * @return
@@ -90,7 +90,7 @@ public class userController {
     }
 
     /**
-     * @author NikhPhalke
+     * @author NikhilPhalke
      * @apiNote Delete A User By UserId
      * @param userid
      * @return
@@ -105,7 +105,7 @@ public class userController {
     }
 
     /**
-     * @author NikhPhalke
+     * @author NikhilPhalke
      * @apiNote Get A Single User By Email
      * @param email
      * @return
@@ -121,7 +121,7 @@ public class userController {
     }
 
     /**
-     * @author NikhPhalke
+     * @author NikhilPhalke
      * @apiNote Search User by containing any letter
      * @param pattern
      * @return

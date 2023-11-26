@@ -1,4 +1,4 @@
-package com.icwd.electronic.store;
+package com.icwd.electronic.store.util;
 
 import java.util.ArrayList;
 import java.util.List;
