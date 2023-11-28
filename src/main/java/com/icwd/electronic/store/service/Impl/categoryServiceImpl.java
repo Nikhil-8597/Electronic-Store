@@ -49,19 +49,7 @@ public class categoryServiceImpl implements categoryService {
         CategoryDto categoryDto1 = this.mapper.map(save, CategoryDto.class);
         return categoryDto1;
 
-        /**
 
-         User user = this.userRepository.findById(userid).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND+userid));
-         user.setName(userDto.getName());
-         user.setPassword(userDto.getPassword());
-         user.setAbout(userDto.getAbout());
-         user.setImagename(userDto.getImagename());
-         user.setGender(userDto.getGender());
-         User save = this.userRepository.save(user);
-         UserDto userDto1 = this.UserToDto(user);
-         log.info("Completed Dao Call For Update The UserData : {}", userid);
-         return userDto1;
-         */
     }
 
     @Override

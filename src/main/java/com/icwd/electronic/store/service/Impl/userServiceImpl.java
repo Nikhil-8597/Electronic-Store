@@ -45,14 +45,13 @@ public class userServiceImpl implements userServiceI {
     @Override
     public UserDto updateUser(UserDto userDto, String userid) {
         log.info("Entering Dao Call For Update The UserData : {}", userid);
-        User user = this.userRepository.findById(userid).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND+userid));
-        user.setName(userDto.getName());
-        user.setPassword(userDto.getPassword());
-        user.setAbout(userDto.getAbout());
-        user.setImagename(userDto.getImagename());
+        User user = this.userRepository.findById(userid).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND));
         user.setGender(userDto.getGender());
+        user.setEmail(userDto.getEmail());
+        user.setImagename(userDto.getImagename());
+        user.setAbout(userDto.getAbout());
         User save = this.userRepository.save(user);
-        UserDto userDto1 = this.UserToDto(user);
+        UserDto userDto1 = this.UserToDto(save);
         log.info("Completed Dao Call For Update The UserData : {}", userid);
         return userDto1;
     }

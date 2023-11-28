@@ -2,6 +2,7 @@ package com.icwd.electronic.store.controller;
 
 import com.icwd.electronic.store.constants.AppConstants;
 import com.icwd.electronic.store.dto.CategoryDto;
+import com.icwd.electronic.store.dto.ApiResponse;
 import com.icwd.electronic.store.service.categoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,8 +39,9 @@ public class categoryController {
         return new ResponseEntity<>(singleCategory,HttpStatus.OK);
     }
      @DeleteMapping("/{categoryId}")
-    public ResponseEntity<String> deleteCategory(@PathVariable String categoryId){
+    public ResponseEntity<ApiResponse> deleteCategory(@PathVariable String categoryId){
         this.service.deleteCategory(categoryId);
-        return new ResponseEntity<>(AppConstants.DELETED_SUCCESSFULLY,HttpStatus.OK);
+         ApiResponse apiResponse = ApiResponse.builder().message(AppConstants.DELETED_SUCCESSFULLY).success(true).status(HttpStatus.OK).build();
+         return new ResponseEntity<>(apiResponse,HttpStatus.OK);
     }
 }

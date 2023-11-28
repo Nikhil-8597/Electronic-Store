@@ -1,6 +1,6 @@
 package com.icwd.electronic.store.exception;
 
-import com.icwd.electronic.store.helper.ApiResponse;
+import com.icwd.electronic.store.dto.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -15,8 +15,8 @@ import java.util.Map;
 
 public class GlobalExceptionHandler {
 
-     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ApiResponse> resourceNotFoundException(ResourceNotFoundException ex){
+     @ExceptionHandler({ResourceNotFoundException.class})
+    public ResponseEntity<ApiResponse> resourceNotFoundException(ResourceNotFoundException ex, ApiResponse api){
          ApiResponse message = ApiResponse.builder().message(ex.getMessage()).status(HttpStatus.NOT_FOUND).success(true).build();
          return new ResponseEntity<>(message,HttpStatus.NOT_FOUND);
 
@@ -35,4 +35,11 @@ public class GlobalExceptionHandler {
 
          return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
      }
+
+    @ExceptionHandler({BadApiRequest.class})
+    public ResponseEntity<ApiResponse> handleBadRequest(BadApiRequest ex, ApiResponse api){
+        ApiResponse message = ApiResponse.builder().message(ex.getMessage()).status(HttpStatus.NOT_FOUND).success(false).build();
+        return new ResponseEntity<>(message,HttpStatus.NOT_FOUND);
+
+    }
 }
