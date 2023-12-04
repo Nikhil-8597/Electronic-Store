@@ -46,7 +46,7 @@ public class userController {
      * @apiNote Create A User
      * @since 1.0v
      */
-    @PostMapping("/create")
+    @PostMapping("/")
     public ResponseEntity<UserDto> createuser(@Valid @RequestBody UserDto userDto) {
         log.info("Entering The Request For Save  UserData");
         UserDto user = this.userServiceI.createUser(userDto);
@@ -63,7 +63,7 @@ public class userController {
      * @since 1.0v
      */
 
-    @PostMapping("/update/{userid}")
+    @PostMapping("/{userid}")
     public ResponseEntity<UserDto> updateuser(@Valid @RequestBody UserDto userDto, @PathVariable String userid) {
         log.info("Entering The Request For Update UserData :{}", userid);
         UserDto userDto1 = this.userServiceI.updateUser(userDto, userid);
@@ -78,7 +78,7 @@ public class userController {
      * @since 1.0v
      **/
 
-    @GetMapping("/getalluser")
+    @GetMapping("/")
     public ResponseEntity<PageableResponse<UserDto>> getalluser(
             @RequestParam(value = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER, required = false) int pageNumber,
             @RequestParam(value = "pageSize", defaultValue = AppConstants.PAGE_SIZE) int pageSize,
@@ -98,7 +98,7 @@ public class userController {
      * @since 1.0v
      */
 
-    @GetMapping("/getuser/{userid}")
+    @GetMapping("/{userid}")
     public ResponseEntity<UserDto> getuser(@PathVariable String userid) {
         log.info("Entering The Request For Get UserData :{}", userid);
         UserDto userById = this.userServiceI.getUserById(userid);
@@ -113,7 +113,7 @@ public class userController {
      * @apiNote Delete A User By UserId
      * @since 1.0v
      */
-    @DeleteMapping("/userdeleted/{userid}")
+    @DeleteMapping("/{userid}")
     public ResponseEntity<ApiResponse> deleteuser(@PathVariable String userid) {
         log.info("Entering The Request For Delete The UserData :{}", userid);
         this.userServiceI.deleteUser(userid);
@@ -130,7 +130,7 @@ public class userController {
      * @since 1.0v
      */
 
-    @GetMapping("/getuserbyemail/{email}")
+    @GetMapping("/email/{email}")
     public ResponseEntity<UserDto> getuserbyemail(@PathVariable String email) {
         log.info("Entering The Request For Get The UserData :{}", email);
         UserDto userByEmail = this.userServiceI.getUserByEmail(email);
