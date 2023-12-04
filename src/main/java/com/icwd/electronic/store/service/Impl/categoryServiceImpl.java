@@ -2,14 +2,20 @@ package com.icwd.electronic.store.service.Impl;
 
 import com.icwd.electronic.store.constants.AppConstants;
 import com.icwd.electronic.store.dto.CategoryDto;
+import com.icwd.electronic.store.dto.PageableResponse;
 import com.icwd.electronic.store.dto.UserDto;
 import com.icwd.electronic.store.entity.Category;
 import com.icwd.electronic.store.entity.User;
 import com.icwd.electronic.store.exception.ResourceNotFoundException;
+import com.icwd.electronic.store.helper.Helper;
 import com.icwd.electronic.store.repository.categoryRepository;
 import com.icwd.electronic.store.service.categoryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,31 +52,30 @@ public class categoryServiceImpl implements categoryService {
         category.setDescription(categoryDto.getDescription());
         category.setCoverImage(categoryDto.getCoverImage());
         Category save = this.repository.save(category);
-        CategoryDto categoryDto1 = this.mapper.map(save, CategoryDto.class);
-        return categoryDto1;
+        return this.mapper.map(save, CategoryDto.class);
 
 
     }
 
     @Override
-    public List<CategoryDto> getAllCategories() {
-        List<Category> categoryList = this.repository.findAll();
-        List<CategoryDto> categoryDtoList = categoryList.stream().map(category -> mapper.map(category, CategoryDto.class)).collect(Collectors.toList());
-        return categoryDtoList;
+    public PageableResponse<CategoryDto> getAllCategories(Integer pageNumber , Integer pageSize) {
+
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<Category> all = this.repository.findAll(pageable);
+        return Helper.getPageableResponse(all, CategoryDto.class);
+
     }
 
     @Override
     public CategoryDto getSingleCategory(String categoryId) {
         Category category = this.repository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND));
-        CategoryDto categoryDto = this.mapper.map(category, CategoryDto.class);
-        return categoryDto;
+        return this.mapper.map(category, CategoryDto.class);
     }
 
     @Override
     public void deleteCategory(String categoryId) {
         Category category = this.repository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND));
-
-            this.repository.deleteById(categoryId);
+        this.repository.deleteById(categoryId);
 
 
     }

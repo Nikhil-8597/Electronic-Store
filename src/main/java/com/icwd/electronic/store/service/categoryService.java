@@ -2,6 +2,7 @@ package com.icwd.electronic.store.service;
 
 import com.icwd.electronic.store.dto.CategoryDto;
 
+import com.icwd.electronic.store.dto.PageableResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public interface categoryService {
     // updateCategory
     public CategoryDto  updateCategory (CategoryDto categoryDto, String categoryId );
     // getAllCategories
-    public List<CategoryDto> getAllCategories();
+    public PageableResponse<CategoryDto> getAllCategories(Integer pageNumber, Integer pageSize);
     //getSingleCategory
     public CategoryDto getSingleCategory(String categoryId);
     //deleteCategory
