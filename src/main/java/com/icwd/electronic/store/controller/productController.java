@@ -105,84 +105,116 @@ public class productController {
         return new ResponseEntity<>(product,HttpStatus.OK);
     }
 
+    /**
+     * @param productId
+     * @return
+     * @author NikhilPhalke
+     * @apiNote Delete A User By productId
+     * @since 1.0v
+     */
+
     @DeleteMapping("/{productId}")
     public ResponseEntity<ApiResponse> deleteById(@PathVariable String productId) {
-
+        log.info("Entering The Request For Delete ProductData :{}", productId);
         ApiResponse apiResponse = ApiResponse.builder().message(AppConstants.DELETED_SUCCESSFULLY).status(HttpStatus.OK).success(true).build();
         this.productServiceI.deleteProduct(productId);
-
+        log.info("Completed The Request For Delete ProductData :{}", productId);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
 
     }
+    /**
+     * @param productDto
+     * @param productId
+     * @return
+     * @author NikhilPhalke
+     * @apiNote Update A Product
+     * @since 1.0v
+     */
+
 
     @PutMapping("/{productId}")
     public ResponseEntity<ProductDto> updateProduct(@Valid @PathVariable String productId, @RequestBody ProductDto productDto) {
-
+        log.info("Entering The Request For Update ProductData :{}", productId);
         ProductDto productDto1 = this.productServiceI.updateProduct(productDto, productId);
-
+        log.info("Completed The Request For Update ProductData :{}", productId);
         return new ResponseEntity<>(productDto1, HttpStatus.OK);
     }
+    /**
+     * @return
+     * @author NikhilPhalke
+     * @apiNote Get All Live True Products
+     * @since 1.0v
+     **/
 
-    @GetMapping("/")
-    public ResponseEntity<PageableResponse> getAllProducts(
-            @RequestParam(value = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER, required = false) Integer pageNumber,
-            @RequestParam(value = "pageSize", defaultValue = AppConstants.PAGE_SIZE, required = false) Integer pageSize,
-            @RequestParam(value = "sortBy", defaultValue = AppConstants.SORT_BY, required = false) String sortBy,
-            @RequestParam(value = "direction", defaultValue = AppConstants.SORT_DIR, required = false) String direction
 
-    ) {
 
-        PageableResponse<ProductDto> allProducts = this.productServiceI.getAllProduct(pageNumber, pageSize, sortBy, direction);
-        return new ResponseEntity<>(allProducts, HttpStatus.OK);
-
-    }
-
-    @GetMapping("/trueLiveProducts")
+    @GetMapping("/trueliveproducts")
     public ResponseEntity<PageableResponse> findAllLiveTrueProducts(
             @RequestParam(value = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER, required = false) Integer pageNumber,
             @RequestParam(value = "pageSize", defaultValue = AppConstants.PAGE_SIZE, required = false) Integer pageSize,
             @RequestParam(value = "sortBy", defaultValue = AppConstants.SORT_BY, required = false) String sortBy,
             @RequestParam(value = "direction", defaultValue = AppConstants.SORT_DIR, required = false) String direction
     ) {
-
+        log.info("Entering The Request For GetAllLiveTrueProduct");
         PageableResponse<ProductDto> allLIveProducts = this.productServiceI.findByLiveTrue(pageNumber, pageSize, sortBy, direction);
+        log.info("Completed The Request For GetAllLiveTrueProduct");
         return new ResponseEntity<>(allLIveProducts, HttpStatus.OK);
     }
+    /**
+     * @return
+     * @author NikhilPhalke
+     * @apiNote Get All Live Products
+     * @since 1.0v
+     **/
 
-    @GetMapping("/liveProducts")
+    @GetMapping("/liveproducts")
     public ResponseEntity<PageableResponse> getLiveProducts(
             @RequestParam(value = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER, required = false) Integer pageNumber,
             @RequestParam(value = "pageSize", defaultValue = AppConstants.PAGE_SIZE, required = false) Integer pageSize,
             @RequestParam(value = "sortBy", defaultValue = AppConstants.SORT_BY, required = false) String sortBy,
             @RequestParam(value = "direction", defaultValue = AppConstants.SORT_DIR, required = false) String sortDir
     ) {
-
+        log.info("Entering The Request For GetAllLiveProducts");
         PageableResponse<ProductDto> allLIveProducts = this.productServiceI.getAllLiveProduct(pageNumber, pageSize, sortBy, sortDir);
+        log.info("Completed The Request For GetAllLiveProducts");
         return new ResponseEntity<>(allLIveProducts, HttpStatus.OK);
 
     }
+    /**
+     * @return
+     * @author NikhilPhalke
+     * @apiNote Get All Products By Title
+     * @since 1.0v
+     **/
 
-    @GetMapping("/keyword/{keyword}")
+    @GetMapping("/keyword/{pattern}")
     public ResponseEntity<PageableResponse> getProductByTitle(
             @RequestParam(value = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER, required = false) Integer pageNumber,
             @RequestParam(value = "pageSize", defaultValue = AppConstants.PAGE_SIZE, required = false) Integer pageSize,
             @RequestParam(value = "sortBy", defaultValue = AppConstants.SORT_BY, required = false) String sortBy,
             @RequestParam(value = "direction", defaultValue = AppConstants.SORT_DIR, required = false) String sortDir
             ,@PathVariable String pattern ){
-
+        log.info("Entering The Request For GetAllProductsByTitle");
         PageableResponse<ProductDto> productByTitle = this.productServiceI.getProductByTitle( pageNumber, pageSize, sortBy, sortDir,pattern);
-
+        log.info("Completed The Request For GetAllProductsByTitle");
         return new ResponseEntity<>(productByTitle,HttpStatus.OK);
     }
-    @PostMapping("/image/{userId}")
+    /**
+     * @param productId
+     * @return
+     * @author NikhilPhalke
+     * @apiNote Upload Image
+     * @since 1.0v
+     */
+    @PostMapping("/image/{productId}")
     public ResponseEntity<ImageResponse> uploadUserImage(@RequestParam("userImage") MultipartFile image, @PathVariable String productId) throws IOException {
-        log.info("Entering the Request for upload file with categoryId :{}",productId);
+        log.info("Entering the Request for upload file with productId :{}",productId);
         String imageName = this.fileService .uploadFile(image, imageUploadPath);
         ProductDto product = this.productServiceI.getProduct(productId);
         product.setProductimagename(imageName);
         ProductDto productDto = this.productServiceI.updateProduct(product, productId);
         ImageResponse imageResponse = ImageResponse.builder().imageName(imageName).success(true).status(HttpStatus.CREATED).message(AppConstants.UPLOAD).build();
-        log.info("Completed the Request for upload file with categoryId :{}",productId);
+        log.info("Completed the Request for upload file with productId :{}",productId);
         return new ResponseEntity<>(imageResponse,HttpStatus.CREATED);
     }
 
@@ -193,13 +225,13 @@ public class productController {
      * @apiNote Get Image
      * @since 1.0v
      */
-    @GetMapping(value = "/image/{categoryId}")
+    @GetMapping(value = "/image/{productId}")
     public void serveUserImage(@PathVariable String productId, HttpServletResponse response) throws IOException {
-        log.info("Entering the Request for serve file with categoryId :{}",productId);
+        log.info("Entering the Request for serve file with productId :{}",productId);
         ProductDto product = this.productServiceI.getProduct(productId);
         InputStream resource = this.fileService.getResource(imageUploadPath, product.getProductimagename());
         response.setContentType(MediaType.IMAGE_PNG_VALUE);
-        log.info("Completed The Request For serve file with  categoryId :{}",productId);
+        log.info("Completed The Request For serve file with  productId :{}",productId);
         StreamUtils.copy(resource,response.getOutputStream());
     }
 

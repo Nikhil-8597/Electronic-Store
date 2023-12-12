@@ -56,7 +56,6 @@ public class productServiceImpl implements productServiceI {
         product.setTitle(productDto.getTitle());
         product.setLive(productDto.getLive());
         product.setAddeddate(productDto.getAddeddate());
-
         product.setDescountprice(productDto.getDescountprice());
         product.setQuantity(productDto.getQuantity());
         product.setProductimagename(productDto.getProductimagename());
@@ -69,11 +68,8 @@ public class productServiceImpl implements productServiceI {
 
     @Override
     public PageableResponse<ProductDto> getAllProduct( Integer pageNumber,  Integer pageSize,String sortBy,String sortDir ) {
-
         log.info("Entering Dao Call For Get All ProductData ");
         Sort sort = (sortDir.equalsIgnoreCase("desc"))?(Sort.by(sortBy).descending()):(Sort.by(sortBy).ascending());
-
-
         PageRequest pageable = PageRequest.of(pageNumber , pageSize,sort);
         Page<Product> all = this.productRepo.findAll(pageable);
         PageableResponse<ProductDto> dtoPageableResponse = Helper.getPageableResponse(all, ProductDto.class);
@@ -91,19 +87,20 @@ public class productServiceImpl implements productServiceI {
 
     @Override
     public void deleteProduct(String productId) {
+        log.info("Entering Dao Call For Delete UserData :{}",productId);
         Product product = this.productRepo.findById(productId).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND));
+        log.info("Entering Dao Call For Delete  UserData :{}",productId);
         this.productRepo.delete(product);
     }
 
     @Override
     public PageableResponse<ProductDto> findByLiveTrue(Integer pageNumber, Integer pageSize, String sortBy, String sortDir) {
         Sort sort = (sortDir.equalsIgnoreCase("desc"))?(Sort.by(sortBy).descending()):(Sort.by(sortBy).ascending());
-
-
+        log.info("Entering Dao Call For Get All Live True ProductData ");
         PageRequest pageable = PageRequest.of(pageNumber , pageSize,sort);
         Page<Product> all = this.productRepo.findByLiveTrue(pageable);
         PageableResponse<ProductDto> dtoPageableResponse = Helper.getPageableResponse(all, ProductDto.class);
-        log.info("Completed Dao Call For Get All ProductData ");
+        log.info("Completed Dao Call For Get All Live True ProductData ");
         return dtoPageableResponse;
     }
 
@@ -112,29 +109,28 @@ public class productServiceImpl implements productServiceI {
     @Override
     public PageableResponse<ProductDto> getAllLiveProduct(Integer pageNumber, Integer pageSize, String sortBy, String sortDir) {
         Sort sort = (sortDir.equalsIgnoreCase("desc"))?(Sort.by(sortBy).descending()):(Sort.by(sortBy).ascending());
-
-
+        log.info("Entering Dao Call For Get All Live ProductData ");
         PageRequest pageable = PageRequest.of(pageNumber , pageSize,sort);
         Page<Product> all = this.productRepo.findAll(pageable);
         PageableResponse<ProductDto> dtoPageableResponse = Helper.getPageableResponse(all, ProductDto.class);
-        log.info("Completed Dao Call For Get All ProductData ");
+        log.info("Completed Dao Call For Get All Live ProductData ");
         return dtoPageableResponse;
     }
 
     @Override
     public PageableResponse<ProductDto> getProductByTitle(Integer pageNumber, Integer pageSize, String sortBy, String sortDir,String pattern) {
         Sort sort = (sortDir.equalsIgnoreCase("desc"))?(Sort.by(sortBy).descending()):(Sort.by(sortBy).ascending());
-
-
+        log.info("Entering Dao Call For Get All ProductData By Title ");
         PageRequest pageable = PageRequest.of(pageNumber , pageSize,sort);
         Page<Product> all = this.productRepo.findByTitleContaining(pageable,pattern);
         PageableResponse<ProductDto> dtoPageableResponse = Helper.getPageableResponse(all, ProductDto.class);
-        log.info("Completed Dao Call For Get All ProductData ");
+        log.info("Completed Dao Call For Get All ProductData By Title ");
         return dtoPageableResponse;
     }
 
     @Override
     public ProductDto createProductWithCategory(ProductDto productDto, String categoryId) {
+        log.info("Entering Dao Call For Save or Create The ProductData By Using Category");
         Category category = this.categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND));
         Product product = this.modelMapper.map(productDto, Product.class);
         Date date = new Date();
@@ -143,15 +139,15 @@ public class productServiceImpl implements productServiceI {
         product.setAddeddate(date);
         product.setCategories(category);
         Product newProduct = this.productRepo.save(product);
+        log.info("Completed Dao Call For Save ProductData By Using Category ");
         return  modelMapper.map(newProduct, ProductDto.class);
     }
 
     @Override
     public PageableResponse<ProductDto> getAllOfCategory(String categoryId,Integer pageNumber, Integer pageSize, String sortBy, String sortDir) {
+        log.info("Entering Dao Call For Get All ProductData ");
         Category category = this.categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND));
         Sort sort = (sortDir.equalsIgnoreCase("desc"))?(Sort.by(sortBy).descending()):(Sort.by(sortBy).ascending());
-
-
         PageRequest pageable = PageRequest.of(pageNumber , pageSize,sort);
         Page<Product> all = this.productRepo.findByCategories(category,pageable);
         PageableResponse<ProductDto> dtoPageableResponse = Helper.getPageableResponse(all, ProductDto.class);
@@ -162,10 +158,12 @@ public class productServiceImpl implements productServiceI {
 
     @Override
     public ProductDto updateCategory(String productId, String categoryId) {
+        log.info("Entering Dao Call For Update The Category : {}", categoryId);
         Product product = this.productRepo.findById(productId).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND));
         Category category = this.categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND));
         product.setCategories(category);
         Product save = this.productRepo.save(product);
+        log.info("Completed Dao Call For Update The Product : {}", productId);
         return  modelMapper.map(save, ProductDto.class);
     }
 }
