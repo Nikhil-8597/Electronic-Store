@@ -189,4 +189,8 @@ public class userController {
         log.info("Completed The Request For serve file with  userId :{}",userId);
         StreamUtils.copy(resource,response.getOutputStream());
     }
+    @GetMapping("/welcome")
+    public String getGreetMsg(){
+      return "Welcome";
+    }
 }

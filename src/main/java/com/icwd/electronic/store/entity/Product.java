@@ -1,14 +1,8 @@
 package com.icwd.electronic.store.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -16,6 +10,7 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Table(name = "product_info")
 public class Product {
 
@@ -39,6 +34,8 @@ public class Product {
     private Double descountprice;
     @Column(name="Product_Image_Name")
     private String productimagename;
+    @ManyToOne
+    private Category categories;
 
 
 

@@ -2,6 +2,9 @@ package com.icwd.electronic.store.constants;
 
 public class AppConstants {
 
+   private AppConstants() {
+    }
+
     public static final String NOT_FOUND="Resource Not Found With userId : ";
     public static final String  UPLOAD="Upload Image Successfully";
     public static final String DELETED_SUCCESSFULLY="Resource Deleted Successfully with userId : ";

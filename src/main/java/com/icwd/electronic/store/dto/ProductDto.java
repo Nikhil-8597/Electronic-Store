@@ -4,6 +4,9 @@ import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 @Getter
 @Setter
@@ -14,17 +17,19 @@ public class ProductDto {
 
 
     private String productId;
-
+    @NotBlank
+    @Size(min = 5,max=50,message = "Product Title Should be minimum 5 character & Maximum 50 character ")
     private String title;
-
-    private String description;
-
+    @NotBlank
+    @Size(min = 5,max=250 ,message = "Product Title Should be minimum 5 character & Maximum 250 character ")
+    private String d,escription;
+    @NotNull(message = "The Price field is not blank.")
     private Double price;
-
+    @NotNull(message = "The Quantity field is not blank.")
     private Long quantity;
 
     private Date addeddate;
-    @NonNull
+
     private Boolean live;
 
     private Boolean stock;
@@ -32,4 +37,6 @@ public class ProductDto {
     private Double descountprice;
 
     private String productimagename;
+
+    private CategoryDto categories;
 }

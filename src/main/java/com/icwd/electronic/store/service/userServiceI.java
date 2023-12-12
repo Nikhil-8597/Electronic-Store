@@ -24,5 +24,5 @@ public interface userServiceI {
     public List<UserDto> searchUser(String pattern);
 
 
-
+ public String getwelcome();
 }

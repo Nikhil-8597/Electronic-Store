@@ -25,6 +25,11 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 public class userServiceImpl implements userServiceI {
+
+    public userServiceImpl(com.icwd.electronic.store.repository.userRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     @Autowired
     private  userRepository userRepository;
 @Autowired
@@ -104,6 +109,11 @@ public class userServiceImpl implements userServiceI {
         List<UserDto> collect = byUseridContaining.stream().map(user -> this.UserToDto(user)).collect(Collectors.toList());
         log.info("Completed Dao Call For Search The UserData :{}", pattern);
         return collect;
+    }
+
+    @Override
+    public String getwelcome() {
+        return null;
     }
 
     public User DtoToUser (UserDto userDto){

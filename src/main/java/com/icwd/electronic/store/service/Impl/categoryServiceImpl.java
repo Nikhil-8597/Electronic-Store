@@ -10,6 +10,7 @@ import com.icwd.electronic.store.exception.ResourceNotFoundException;
 import com.icwd.electronic.store.helper.Helper;
 import com.icwd.electronic.store.repository.categoryRepository;
 import com.icwd.electronic.store.service.categoryService;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 
 
 @Service
+@Slf4j
 public class categoryServiceImpl implements categoryService {
     @Autowired
     private categoryRepository repository;
@@ -33,25 +35,27 @@ public class categoryServiceImpl implements categoryService {
 
     @Override
     public CategoryDto createCategory(CategoryDto categoryDto) {
-
+        log.info("Entering Dao Call For Save or Create The CategoryData");
         String string = UUID.randomUUID().toString();
         categoryDto.setCategoryId(string);
         Category category1 = mapper.map(categoryDto, Category.class);
         Category save = this.repository.save(category1);
         CategoryDto categoryDto1 = mapper.map(save, CategoryDto.class);
+        log.info("Completed Dao Call For Save CategoryData ");
         return categoryDto1;
 
     }
 
     @Override
     public CategoryDto updateCategory(CategoryDto categoryDto, String categoryId) {
-
+        log.info("Entering Dao Call For Update The CategoryData : {}", categoryId);
         Category category = this.repository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND + categoryId));
         //category.setCategoryId(categoryDto.getCategoryId());
         category.setTitle(categoryDto.getTitle());
         category.setDescription(categoryDto.getDescription());
         category.setCoverImage(categoryDto.getCoverImage());
         Category save = this.repository.save(category);
+        log.info("Completed Dao Call For Update The CategoryData : {}", categoryId);
         return this.mapper.map(save, CategoryDto.class);
 
 
@@ -59,22 +63,27 @@ public class categoryServiceImpl implements categoryService {
 
     @Override
     public PageableResponse<CategoryDto> getAllCategories(Integer pageNumber , Integer pageSize) {
-
+        log.info("Entering Dao Call For Get All CategoryData ");
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Page<Category> all = this.repository.findAll(pageable);
+        log.info("Completed Dao Call For Get All CategoryData ");
         return Helper.getPageableResponse(all, CategoryDto.class);
 
     }
 
     @Override
     public CategoryDto getSingleCategory(String categoryId) {
-        Category category = this.repository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND));
+        log.info("Entering Dao Call For Get The CategoryData :{}", categoryId);
+        Category category = this.repository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND+categoryId));
+        log.info("Completed Dao Call For Get The CategoryData :{}", categoryId);
         return this.mapper.map(category, CategoryDto.class);
     }
 
     @Override
     public void deleteCategory(String categoryId) {
-        Category category = this.repository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND));
+        log.info("Entering Dao Call For Delete CategoryData :{}",categoryId);
+        Category category = this.repository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND+ categoryId));
+        log.info("Entering Dao Call For Delete  CategoryData :{}",categoryId);
         this.repository.deleteById(categoryId);
 
 
