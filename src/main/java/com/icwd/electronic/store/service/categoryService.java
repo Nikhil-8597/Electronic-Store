@@ -15,7 +15,7 @@ public interface categoryService {
     // updateCategory
     public CategoryDto  updateCategory (CategoryDto categoryDto, String categoryId );
     // getAllCategories
-    public PageableResponse<CategoryDto> getAllCategories(Integer pageNumber, Integer pageSize);
+    public PageableResponse<CategoryDto> getAllCategories(Integer pageNumber, Integer pageSize,String sortBy,String sortDir);
     //getSingleCategory
     public CategoryDto getSingleCategory(String categoryId);
     //deleteCategory

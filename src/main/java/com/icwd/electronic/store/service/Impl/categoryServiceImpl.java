@@ -3,8 +3,10 @@ package com.icwd.electronic.store.service.Impl;
 import com.icwd.electronic.store.constants.AppConstants;
 import com.icwd.electronic.store.dto.CategoryDto;
 import com.icwd.electronic.store.dto.PageableResponse;
+import com.icwd.electronic.store.dto.ProductDto;
 import com.icwd.electronic.store.dto.UserDto;
 import com.icwd.electronic.store.entity.Category;
+import com.icwd.electronic.store.entity.Product;
 import com.icwd.electronic.store.entity.User;
 import com.icwd.electronic.store.exception.ResourceNotFoundException;
 import com.icwd.electronic.store.helper.Helper;
@@ -62,10 +64,12 @@ public class categoryServiceImpl implements categoryService {
     }
 
     @Override
-    public PageableResponse<CategoryDto> getAllCategories(Integer pageNumber , Integer pageSize) {
+    public PageableResponse<CategoryDto> getAllCategories(Integer pageNumber , Integer pageSize,String sortBy, String sortDir) {
         log.info("Entering Dao Call For Get All CategoryData ");
-        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Sort sort = (sortDir.equalsIgnoreCase("desc"))?(Sort.by(sortBy).descending()):(Sort.by(sortBy).ascending());
+        PageRequest pageable = PageRequest.of(pageNumber , pageSize,sort);
         Page<Category> all = this.repository.findAll(pageable);
+        PageableResponse<CategoryDto> dtoPageableResponse = Helper.getPageableResponse(all, CategoryDto.class);
         log.info("Completed Dao Call For Get All CategoryData ");
         return Helper.getPageableResponse(all, CategoryDto.class);
 

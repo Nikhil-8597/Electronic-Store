@@ -12,6 +12,7 @@ import com.icwd.electronic.store.entity.User;
 import com.icwd.electronic.store.service.userServiceI;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -125,6 +126,8 @@ public class productControllerTest {
         mockMvc.perform(
                         MockMvcRequestBuilders.delete("/product/" + productId))
                 .andDo(print()).andExpect(status().isOk());
+
+        Mockito.verify(productServiceI, Mockito.times(1)).deleteProduct(productId);
 
     }
 }

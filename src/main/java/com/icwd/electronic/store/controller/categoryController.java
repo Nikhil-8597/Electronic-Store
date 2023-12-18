@@ -77,10 +77,12 @@ public class categoryController {
     @GetMapping("/")
     public ResponseEntity<PageableResponse<CategoryDto>> getAllCat(
             @RequestParam(value = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER,required = false)Integer pageNumber,
-            @RequestParam(value = "pageSize", defaultValue = AppConstants.PAGE_SIZE,required = false)Integer pageSize
+            @RequestParam(value = "pageSize", defaultValue = AppConstants.PAGE_SIZE,required = false)Integer pageSize,
+             @RequestParam(value = "sortBy",defaultValue = "title" ,required = false) String sortBy,
+            @RequestParam(value = "sortDir",defaultValue = "asc",required = false)String sortDir
            ){
         log.info("Entering The Request For GetAllUsers");
-        PageableResponse<CategoryDto> allCategories = this.service.getAllCategories(pageNumber, pageSize);
+        PageableResponse<CategoryDto> allCategories = this.service.getAllCategories(pageNumber, pageSize,sortBy,sortDir);
         log.info("Completed The Request For GetAllUsers");
         return new ResponseEntity<>(allCategories,HttpStatus.OK);
     }

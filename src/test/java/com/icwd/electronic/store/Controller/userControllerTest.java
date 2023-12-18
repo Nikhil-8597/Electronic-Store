@@ -79,7 +79,6 @@ public class userControllerTest {
     }
 
     private String convertObjTojsonString(User user) throws JsonProcessingException {
-
         ObjectMapper mapper = new ObjectMapper();
         String valueAsString = mapper.writeValueAsString(user);
         return valueAsString;
@@ -87,105 +86,70 @@ public class userControllerTest {
 
     @Test
     public void createuserTest() throws Exception {
-
         UserDto dto = modelMapper.map(user, UserDto.class);
-
         Mockito.when(userServiceI.createUser(Mockito.any())).thenReturn(dto);
-
         this.mockMvc.perform(
-                        MockMvcRequestBuilders.post("/user/")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(convertObjTojsonString(user))
-                                .accept(MediaType.APPLICATION_JSON)
-
-
+                MockMvcRequestBuilders.post("/user/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(convertObjTojsonString(user))
+                        .accept(MediaType.APPLICATION_JSON)
                 ).andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name").exists());
-
     }
 
     @Test
     public void getalluserTest() throws Exception {
-
         PageableResponse<UserDto> pagResponse = new PageableResponse<>();
-
         pagResponse.setContent(Arrays.asList(userDto, userDto));
         pagResponse.setLastPage(false);
         pagResponse.setPageNumber(10);
         pagResponse.setPageSize(2);
         pagResponse.setTotalElement(100l);
-
         Mockito.when(userServiceI.getAllUser(Mockito.anyInt(), Mockito.anyInt()
                 , Mockito.anyString(), Mockito.anyString())).thenReturn(pagResponse);
-
         this.mockMvc
-                .perform(
-                        MockMvcRequestBuilders.get("/user/")
+                .perform(MockMvcRequestBuilders.get("/user/")
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .accept(MediaType.APPLICATION_JSON)
-                ).andDo(print()).andExpect(status().isOk());
-
-
+                                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print()).andExpect(status().isOk());
     }
 
     @Test
     public void getuserTest() throws Exception {
-
         UserDto dto = modelMapper.map(user, UserDto.class);
-
         String userId = "rahul@123";
         Mockito.when(userServiceI.getUserById(userId)).thenReturn(dto);
-
-        mockMvc.perform(
-                MockMvcRequestBuilders.get("/user/" + userId)
-        ).andDo(print()).andExpect(status().isOk());
-
-
+        mockMvc.perform(MockMvcRequestBuilders.get("/user/" + userId))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
-
-
     @Test
     public void getuserbyemailTest() throws Exception {
-
         UserDto dto = modelMapper.map(user, UserDto.class);
-
         String email = "ak@gmail.com";
         Mockito.when(userServiceI.getUserByEmail(email)).thenReturn(dto);
         mockMvc.perform(
-                MockMvcRequestBuilders.get("/user/email/" + email)
-        ).andDo(print()).andExpect(status().isOk());
-
-
+                MockMvcRequestBuilders.get("/user/email/" + email))
+                .andDo(print()).andExpect(status().isOk());
     }
-
-
-
 
     @Test
     public void searchuserTest() throws Exception {
         String pattern = "mayur";
-
         Mockito.when(userServiceI.searchUser(pattern)).thenReturn(Arrays.asList(userDto, userDto));
-
         mockMvc.perform(
-                MockMvcRequestBuilders.get("/user/searchuser/" + pattern)
-        ).andDo(print()).andExpect(status().isOk());
+                MockMvcRequestBuilders.get("/user/searchuser/" + pattern))
+                .andDo(print()).andExpect(status().isOk());
     }
-
-
     @Test
     public void deleteuserTest() throws Exception {
-
         String userid = "rahul@123";
-
         Mockito.doNothing().when(userServiceI).deleteUser(userid);
-
         mockMvc.perform(
-                MockMvcRequestBuilders.delete("/user/" + userid)
-        ).andDo(print()).andExpect(status().isOk());
-
-
+                MockMvcRequestBuilders.delete("/user/" + userid))
+                .andDo(print()).andExpect(status().isOk());
+        Mockito.verify(userServiceI,Mockito.times(1)).deleteUser(userid);
     }
 }
 

@@ -22,5 +22,5 @@ public class CategoryDto {
     private String description;
     @ImageNameValid
     private String coverImage;
-    // private List<ProducDto> products = new ArrayList<>();
+
 }

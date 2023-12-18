@@ -115,5 +115,7 @@ public class categoryControllerTest {
         mockMvc.perform(
                         MockMvcRequestBuilders.delete("/category/" + categoryId))
                 .andDo(print()).andExpect(status().isOk());
+
+        Mockito.verify(categoryService,Mockito.times(1)).deleteCategory(categoryId);
     }
 }
