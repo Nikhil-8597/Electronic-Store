@@ -28,8 +28,6 @@ public class categoryController {
     @Autowired
     private categoryService service;
 
-
-
     @Autowired
     private FileService fileService;
 
