@@ -42,7 +42,7 @@ public class productServiceImpl implements productServiceI {
         log.info("Entering Dao Call For Save or Create The ProductData");
         String productID = UUID.randomUUID().toString();
         productDto.setProductId(productID);
-
+        productDto.setAddeddate(new Date());
         Product product = this.modelMapper.map(productDto, Product.class);
         Product product1 = this.productRepo.save(product);
         log.info("Completed Dao Call For Save ProductData ");
