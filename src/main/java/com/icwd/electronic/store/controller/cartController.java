@@ -17,7 +17,14 @@ import org.springframework.web.bind.annotation.*;
 public class cartController {
     @Autowired
     private CartServiceI cartService;
-
+    /**
+     * @author Nikhil Phalke
+     * @apiNote api for create cart with userId
+     * @param id
+     * @param request
+     * @return
+     * @since 1.0v
+     */
     @PostMapping("/{id}")
     public ResponseEntity<CartDto> addItemToCart(@PathVariable String id, @RequestBody AddItemsToCart request) {
         log.info("Initiating dao request for add item to cart with user id {}:",id);
@@ -25,6 +32,15 @@ public class cartController {
         log.info("Completed dao call to add item into cart with userId:{}", id);
         return new ResponseEntity<>(cartDto, HttpStatus.OK);
     }
+    /**
+     * @author Nikhil Phalke
+     * @apiNote api for Remove item from cart with userId And itemId
+     * @param id
+     * @param itemId
+     * @return
+     * @since 1.0v
+     */
+
 
     @GetMapping("/{id}/items/{itemId}")
     public ResponseEntity<ApiResponse> removeItemFromCart(@PathVariable String id, @PathVariable int itemId){
@@ -38,6 +54,14 @@ public class cartController {
         log.info("Completed dao call to remove item from cart with userId:{}", id);
         return new ResponseEntity<>(apiResponse,HttpStatus.OK);
     }
+
+    /**
+     * @author Nikhil Phalke
+     * @apiNote api for Clear Cart with userId
+     * @param id
+     * @return
+     * @since 1.0v
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse> clearCart(@PathVariable String id){
         log.info("Initiating dao request for clear item from cart with user id {}:",id);
@@ -50,7 +74,13 @@ public class cartController {
         log.info("Completed dao call to clear item from cart with userId:{}", id);
         return new ResponseEntity<>(apiResponse,HttpStatus.OK);
     }
-
+    /**
+     * @author Nikhil Phalke
+     * @apiNote api for get Cart by UserId
+     * @param id
+     * @return
+     * @since 1.0v
+     */
     @GetMapping("/{id}")
     public ResponseEntity<CartDto> getCartByUser(@PathVariable String id) {
         log.info("Initiating dao request for get cart item by user from cart with user id {}:",id);

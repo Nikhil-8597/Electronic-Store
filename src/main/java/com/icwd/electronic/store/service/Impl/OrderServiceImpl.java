@@ -1,5 +1,6 @@
 package com.icwd.electronic.store.service.Impl;
 
+import com.icwd.electronic.store.dto.CreateOrderRequest;
 import com.icwd.electronic.store.dto.OrderDto;
 import com.icwd.electronic.store.dto.PageableResponse;
 import com.icwd.electronic.store.entity.*;
@@ -33,8 +34,9 @@ public class OrderServiceImpl implements OrderServiceI {
     private ModelMapper modelMapper;
 
     @Override
-    public OrderDto createOrder(OrderDto orderDto, String id, String cartId) {
-
+    public OrderDto createOrder(CreateOrderRequest request) {
+        String id = request.getId();
+        String cartId = request.getCartId();
         //fetch user
         User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found with given id"));
         //fetch cart
@@ -46,13 +48,12 @@ public class OrderServiceImpl implements OrderServiceI {
         }
 
         Order order = Order.builder()
-                .billingName(orderDto.getBillingName())
-                .billingPhone(orderDto.getBillingPhone())
-                .billingAddress(orderDto.getBillingAddress())
+                .billingName(request.getBillingName())
+                .billingPhone(request.getBillingPhone())
+                .billingAddress(request.getBillingAddress())
                 .orderDate(new Date())
-                .deliveredDate(orderDto.getDeliveredDate())
-                .paymentStatus(orderDto.getPaymentStatus())
-                .orderStatus(orderDto.getOrderStatus())
+                .paymentStatus(request.getPaymentStatus())
+                .orderStatus(request.getOrderStatus())
                 .orderId(UUID.randomUUID().toString())
                 .user(user)
                 .build();
@@ -94,7 +95,7 @@ public class OrderServiceImpl implements OrderServiceI {
     }
 
     @Override
-    public PageableResponse<OrderDto> getOrders(int pageNumber, int pageSize, String sortBy, String sortDir) {
+    public PageableResponse<OrderDto> getOrders(String id,int pageNumber, int pageSize, String sortBy, String sortDir) {
         return new PageableResponse<>();
     }
 }
